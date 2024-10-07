@@ -2,6 +2,7 @@ package com.jozefv.newsdata
 
 import android.app.Application
 import com.jozefv.newsdata.auth.di.authModule
+import com.jozefv.newsdata.news.di.newsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -14,7 +15,8 @@ class NewsDataApp: Application() {
             androidContext(this@NewsDataApp)
             // List of modules what we need
             modules(
-                authModule
+                authModule,
+                newsModule
             )
         }
     }
