@@ -27,9 +27,8 @@ class LoginViewModel : ViewModel() {
                     isPasswordVisible = !state.isPasswordVisible
                 )
             }
-
-            LoginAction.OnLoginClick -> TODO()
-            LoginAction.OnSkipClick -> TODO()
+            // Navigation is handled in NavigationRoot
+            else -> Unit
         }
     }
 }

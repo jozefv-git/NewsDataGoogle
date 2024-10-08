@@ -35,7 +35,12 @@ fun LoginScreenRoot(
 ) {
     LoginScreen(
         state = viewModel.state,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when(action){
+                is LoginAction.OnSkipClick -> onSkip()
+                else -> viewModel.onAction(action)
+            }
+        }
     )
 }
 

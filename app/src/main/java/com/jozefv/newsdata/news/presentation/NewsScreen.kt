@@ -20,7 +20,12 @@ fun NewsScreenRoot(
 ) {
     NewsScreen(
         state = viewModel.state,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when(action){
+                is NewsAction.OnLoginClick -> onLoginClick()
+                else -> viewModel.onAction(action)
+            }
+        }
     )
 }
 

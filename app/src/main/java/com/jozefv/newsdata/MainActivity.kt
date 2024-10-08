@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.jozefv.newsdata.auth.presentation.LoginScreenRoot
+import androidx.navigation.compose.rememberNavController
 import com.jozefv.newsdata.core.presentation.ui.theme.NewsDataTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NewsDataTheme {
-                LoginScreenRoot(onLoginSuccess = { /*TODO*/ })
+                NavigationRoot(navHostController = rememberNavController(), isLoggedIn = false)
             }
         }
     }
