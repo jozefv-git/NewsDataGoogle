@@ -70,6 +70,8 @@ dependencies {
 
     implementation(libs.coil.compose)
 
+    implementation(libs.bundles.ktor)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
