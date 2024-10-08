@@ -7,13 +7,17 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jozefv.newsdata.auth.domain.isUserValid
+import com.jozefv.newsdata.core.domain.AuthUser
+import com.jozefv.newsdata.core.domain.SessionStorage
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class LoginViewModel() : ViewModel() {
+class LoginViewModel(
+    private val sessionStorage: SessionStorage
+) : ViewModel() {
     var state by mutableStateOf(LoginState())
         private set
 
@@ -64,6 +68,7 @@ class LoginViewModel() : ViewModel() {
 
     private fun login() {
         viewModelScope.launch {
+            sessionStorage.setUser(AuthUser(state.email,state.password))
             _eventChannel.send(LoginEvent.LoginSuccess)
         }
     }

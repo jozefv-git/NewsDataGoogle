@@ -14,6 +14,8 @@ kotlin-serialization = "2.0.20"
 navigation-compose = "2.8.2"
 coil-compose = "2.7.0"
 ktor = "2.3.12"
+encrypted-shared-prefs = "1.1.0-alpha06"
+splash-screen = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -41,6 +43,8 @@ ktor-client-logging = {module = "io.ktor:ktor-client-logging",version.ref = "kto
 ktor-client-content-negotiation = {module = "io.ktor:ktor-client-content-negotiation",version.ref = "ktor"}
 ktor-client-content-negotiation-json = { module = "io.ktor:ktor-serialization-kotlinx-json",version.ref =  "ktor"}
 ktor-client-auth= {module = "io.ktor:ktor-client-auth",version.ref = "ktor"}
+encrypted-shared-prefs = {module = "androidx.security:security-crypto-ktx",version.ref = "encrypted-shared-prefs"}
+splash-screen = {module = "androidx.core:core-splashscreen",version.ref = "splash-screen"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
