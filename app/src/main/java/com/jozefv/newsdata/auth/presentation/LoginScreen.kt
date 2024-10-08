@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jozefv.newsdata.R
 import com.jozefv.newsdata.auth.presentation.components.CustomTextField
+import com.jozefv.newsdata.core.presentation.ObserveAsEvents
 import com.jozefv.newsdata.core.presentation.SpacerHorM
 import com.jozefv.newsdata.core.presentation.SpacerVerL
 import com.jozefv.newsdata.core.presentation.SpacerVerM
@@ -33,10 +34,17 @@ fun LoginScreenRoot(
     onLoginSuccess: () -> Unit,
     viewModel: LoginViewModel = koinViewModel()
 ) {
+
+    ObserveAsEvents(flow = viewModel.eventChannel) { loginEvent ->
+        if (loginEvent is LoginEvent.LoginSuccess) {
+            onLoginSuccess()
+        }
+    }
+
     LoginScreen(
         state = viewModel.state,
         onAction = { action ->
-            when(action){
+            when (action) {
                 is LoginAction.OnSkipClick -> onSkip()
                 else -> viewModel.onAction(action)
             }
@@ -87,6 +95,17 @@ private fun LoginScreen(
                 onAction(LoginAction.PasswordInput(it))
             }
         )
+        SpacerVerM()
+        state.canLogin?.let { canLogin ->
+            if (!canLogin) {
+                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterStart) {
+                    Text(
+                        style = MaterialTheme.typography.bodySmall,
+                        text = "Email or password is incorrect"
+                    )
+                }
+            }
+        }
         SpacerVerL()
         Row(
             Modifier.fillMaxWidth(),
@@ -98,9 +117,11 @@ private fun LoginScreen(
                 Text(text = "Skip")
             }
             SpacerHorM()
-            Button(onClick = {
-                onAction(LoginAction.OnLoginClick)
-            }) {
+            Button(
+                enabled = state.notEmptyFields,
+                onClick = {
+                    onAction(LoginAction.OnLoginClick)
+                }) {
                 Text(text = "Login")
             }
         }

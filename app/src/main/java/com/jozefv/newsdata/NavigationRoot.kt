@@ -21,7 +21,14 @@ fun NavigationRoot(navHostController: NavHostController, isLoggedIn: Boolean) {
             LoginScreenRoot(
                 onSkip = {
                     navHostController.navigate(route = News)
-                }, onLoginSuccess = { /*TODO*/ })
+                }, onLoginSuccess = {
+                    navHostController.navigate(route = News) {
+                        // After successful login - we don't want to go back to login screen if back-pressed
+                        popUpTo(Login) {
+                            inclusive = true
+                        }
+                    }
+                })
         }
         composable<News> {
             NewsScreenRoot(onLoginClick = {
