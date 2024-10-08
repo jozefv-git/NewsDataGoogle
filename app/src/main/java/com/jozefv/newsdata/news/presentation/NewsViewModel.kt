@@ -12,8 +12,11 @@ class NewsViewModel: ViewModel() {
 
     fun onAction(action: NewsAction){
         when(action){
-            NewsAction.OnLoginClick -> TODO()
-            NewsAction.OnLogoutClick -> TODO()
+            NewsAction.OnLogoutClick -> {
+                TODO()
+            }
+            // Navigation is handled in NavigationRoot
+            else -> Unit
         }
     }
 }

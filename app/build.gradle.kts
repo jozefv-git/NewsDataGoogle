@@ -1,13 +1,19 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
-
 android {
     namespace = "com.jozefv.newsdata"
     compileSdk = 34
 
+    val apiKey = gradleLocalProperties(rootDir,rootProject.providers).getProperty("API_KEY")
+
     defaultConfig {
+        // Because of gradle, we need to define api in additional quotes
+        buildConfigField("String","API_KEY","\"$apiKey\"")
         applicationId = "com.jozefv.newsdata"
         minSdk = 28
         targetSdk = 34
@@ -37,6 +43,7 @@ android {
         jvmTarget = "1.8"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     composeOptions {
@@ -68,6 +75,12 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
 
     implementation(libs.coil.compose)
+
+    implementation(libs.bundles.ktor)
+
+    implementation(libs.encrypted.shared.prefs)
+
+    implementation(libs.splash.screen)
 
 
     testImplementation(libs.junit)
