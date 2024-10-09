@@ -14,7 +14,8 @@ fun NewsDataDao.toNewsDataUi(): NewsDataUi {
                 sourceName = it.source_name ?: "Unknown",
                 sourceUrl = it.source_url ?: "Source wasn't provided",
                 publishedDate = it.pubDate?.let { timeConverter(it) }
-                    ?: "Publish date wasn't provided"
+                    ?: "Publish date wasn't provided",
+                articleLink = it.link!! // Link cannot be null as long as article exists
             )
         }
     )

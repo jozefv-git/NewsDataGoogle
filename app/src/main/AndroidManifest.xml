@@ -29,4 +29,12 @@
         </activity>
     </application>
 
+    <!-- Query for the apps which can receive intent with SEND action - so they can handle our intent -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SEND"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
+
 </manifest>

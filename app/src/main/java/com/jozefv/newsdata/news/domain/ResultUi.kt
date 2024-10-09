@@ -6,5 +6,6 @@ data class ResultUi(
     val description: String,
     val publishedDate: String,
     val sourceName: String,
-    val sourceUrl: String
+    val sourceUrl: String,
+    val articleLink: String
 )

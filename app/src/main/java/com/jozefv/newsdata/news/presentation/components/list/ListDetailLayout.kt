@@ -10,9 +10,11 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.jozefv.newsdata.news.domain.ResultUi
 import com.jozefv.newsdata.news.presentation.NewsAction
 import com.jozefv.newsdata.news.presentation.NewsState
+import com.jozefv.newsdata.news.presentation.shareTextContent
 
 @Composable
 fun ListDetailLayout(
@@ -21,6 +23,7 @@ fun ListDetailLayout(
     state: NewsState,
     onAction: (NewsAction) -> Unit
 ) {
+    val context = LocalContext.current
     val navigator = rememberListDetailPaneScaffoldNavigator<ResultUi>()
     BackHandler(navigator.canNavigateBack()) {
         navigator.navigateBack()
@@ -50,7 +53,10 @@ fun ListDetailLayout(
                     NewsDetail(
                         paddingValues = paddingValues,
                         resultUi = resultUi,
-                        onShareClick = {})
+                        onShareClick = {
+                            context.shareTextContent(resultUi.articleLink)
+                        }
+                    )
                 }
             }
         }
