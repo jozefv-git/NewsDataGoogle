@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.parcelize)
 }
 android {
     namespace = "com.jozefv.newsdata"
@@ -82,6 +83,7 @@ dependencies {
 
     implementation(libs.splash.screen)
 
+    implementation(libs.bundles.adaptive.layouts)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

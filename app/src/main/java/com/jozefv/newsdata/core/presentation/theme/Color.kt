@@ -1,4 +1,4 @@
-package com.jozefv.newsdata.core.presentation.ui.theme
+package com.jozefv.newsdata.core.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
 
         android:name=".di.NewsDataApp"
@@ -27,5 +28,13 @@
             </intent-filter>
         </activity>
     </application>
+
+    <!-- Query for the apps which can receive intent with SEND action - so they can handle our intent -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SEND"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
 
 </manifest>
