@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">NewsData</string>
+    <string name="unauthorised">User is unauthorised.</string>
+    <string name="too_many_requests">Too many requests. You will need to wait for the rate limit to reset before making further requests.</string>
+    <string name="internal_error">Internal server error. Try again later.</string>
+    <string name="no_internet">Please check your internet connection and try again.</string>
+    <string name="other_error">Other error occured.</string>
+    <string name="logout">You were successfully log out!</string>
 </resources>
