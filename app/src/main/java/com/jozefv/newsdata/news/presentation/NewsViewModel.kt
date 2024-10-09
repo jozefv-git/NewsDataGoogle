@@ -5,10 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jozefv.newsdata.R
 import com.jozefv.newsdata.core.domain.ResultHandler
 import com.jozefv.newsdata.core.domain.SessionStorage
-import com.jozefv.newsdata.core.presentation.UiText
 import com.jozefv.newsdata.core.presentation.toUiText
 import com.jozefv.newsdata.news.domain.NewsRepository
 import kotlinx.coroutines.channels.Channel
@@ -57,7 +55,6 @@ class NewsViewModel(
             NewsAction.OnLogoutClick -> {
                 viewModelScope.launch {
                     sessionStorage.setUser(null)
-                    _channel.send(NewsEvent.LogOutEvent(UiText.StringResource(R.string.logout)))
                 }
             }
 

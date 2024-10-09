@@ -14,6 +14,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,6 +30,7 @@ import com.jozefv.newsdata.core.presentation.SpacerVerL
 import com.jozefv.newsdata.core.presentation.SpacerVerM
 import com.jozefv.newsdata.core.presentation.components.CustomScaffold
 import com.jozefv.newsdata.core.presentation.components.CustomToolBar
+import com.jozefv.newsdata.news.presentation.components.CustomAlertDialog
 import com.jozefv.newsdata.news.presentation.components.list.ListDetailLayout
 import org.koin.androidx.compose.koinViewModel
 
@@ -39,10 +44,6 @@ fun NewsScreenRoot(
     ObserveAsEvents(flow = viewModel.channel) { event ->
         when (event) {
             is NewsEvent.ErrorEvent -> {
-                Toast.makeText(context, event.value.asString(context), Toast.LENGTH_LONG).show()
-            }
-
-            is NewsEvent.LogOutEvent -> {
                 Toast.makeText(context, event.value.asString(context), Toast.LENGTH_LONG).show()
             }
         }
@@ -68,22 +69,27 @@ private fun NewsScreen(
     state: NewsState,
     onAction: (NewsAction) -> Unit
 ) {
+    var isDialogVisible by remember {
+        mutableStateOf(false)
+    }
     CustomScaffold(
         modifier = Modifier.fillMaxSize(),
         topAppBar = {
             CustomToolBar(
                 title = "Latest News",
                 trailingContent = {
-                    IconButton(
-                        onClick =
-                        {
-                            onAction(NewsAction.OnLogoutClick)
+                    if (state.isLoggedIn) {
+                        IconButton(
+                            onClick =
+                            {
+                                isDialogVisible = true
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_logout_24),
+                                contentDescription = "Log out"
+                            )
                         }
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_logout_24),
-                            contentDescription = "Log out"
-                        )
                     }
                 }
             )
@@ -137,6 +143,23 @@ private fun NewsScreen(
         }
     }
 
+    if (isDialogVisible) {
+        CustomAlertDialog(
+            dialogTitle = "Logout",
+            dialogText = "Are you sure you want to logout?",
+            dialogIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_logout_24),
+                    contentDescription = "Log out"
+                )
+            },
+            onDismiss = { isDialogVisible = false },
+            onConfirm = {
+                onAction(NewsAction.OnLogoutClick)
+                isDialogVisible = false
+            }
+        )
+    }
 }
 
 @Preview
