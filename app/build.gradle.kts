@@ -82,6 +82,7 @@ dependencies {
 
     implementation(libs.splash.screen)
 
+    implementation(libs.bundles.adaptive.layouts)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

@@ -45,7 +45,7 @@ fun SpacerVerS() {
 
 @Composable
 fun SpacerVerM() {
-    Spacer(modifier = Modifier.width(size.medium))
+    Spacer(modifier = Modifier.height(size.medium))
 }
 
 @Composable

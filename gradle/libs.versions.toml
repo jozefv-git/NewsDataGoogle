@@ -45,6 +45,9 @@ ktor-client-content-negotiation-json = { module = "io.ktor:ktor-serialization-ko
 ktor-client-auth= {module = "io.ktor:ktor-client-auth",version.ref = "ktor"}
 encrypted-shared-prefs = {module = "androidx.security:security-crypto-ktx",version.ref = "encrypted-shared-prefs"}
 splash-screen = {module = "androidx.core:core-splashscreen",version.ref = "splash-screen"}
+androidx-adaptive = {module = "androidx.compose.material3.adaptive:adaptive"}
+androidx-adaptive-layout = {module = "androidx.compose.material3.adaptive:adaptive-layout"}
+androidx-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -60,5 +63,10 @@ ktor = [
     "ktor-client-content-negotiation",
     "ktor-client-content-negotiation-json",
     "ktor-client-auth"
+]
+adaptive-layouts = [
+    "androidx-adaptive",
+    "androidx-adaptive-layout",
+    "androidx-adaptive-navigation"
 ]
 
