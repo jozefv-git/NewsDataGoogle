@@ -31,9 +31,22 @@ fun NavigationRoot(navHostController: NavHostController, isLoggedIn: Boolean) {
                 })
         }
         composable<News> {
-            NewsScreenRoot(onLoginClick = {
-                navHostController.popBackStack()
-            })
+            NewsScreenRoot(
+                onLogoutClick = {
+                    navHostController.navigate(route = Login) {
+                        popUpTo(News) {
+                            inclusive = true
+                        }
+                    }
+                },
+                onLoginClick = {
+                    navHostController.navigate(route = Login) {
+                        popUpTo(Login) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
         }
     }
 }
