@@ -1,6 +1,6 @@
-package com.jozefv.newsdata.news.data
+package com.jozefv.newsdata.news.data.dto
 
-import com.jozefv.newsdata.news.data.dto.NewsDataDao
+import com.jozefv.newsdata.news.data.timeConverter
 import com.jozefv.newsdata.news.domain.NewsDataUi
 import com.jozefv.newsdata.news.domain.ResultUi
 

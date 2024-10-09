@@ -5,6 +5,7 @@ coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+kotlinGradlePlugin = "2.1.0-Beta1"
 lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
 composeBom = "2024.09.03"
@@ -16,6 +17,7 @@ coil-compose = "2.7.0"
 ktor = "2.3.12"
 encrypted-shared-prefs = "1.1.0-alpha06"
 splash-screen = "1.0.0"
+kotlin-parcelize = "1.8.10"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -34,6 +36,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = {module = "io.insert-koin:koin-androidx-compose",version.ref = "koin"}
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
 kotlin-serialization-json = {module = "org.jetbrains.kotlinx:kotlinx-serialization-json",version.ref = "kotlin-serialization-json"}
 navigation = {module = "androidx.navigation:navigation-compose",version.ref = "navigation-compose"}
 coil-compose = {module="io.coil-kt:coil-compose",version.ref = "coil-compose"}
@@ -54,7 +57,8 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 # For compose navigation
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-serialization"}
-
+# For adaptive list
+kotlin-parcelize = {id ="org.jetbrains.kotlin.plugin.parcelize",version.ref = "kotlin-parcelize"}
 [bundles]
 ktor = [
     "ktor-client-core",

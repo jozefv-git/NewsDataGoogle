@@ -30,14 +30,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.jozefv.newsdata.core.presentation.SpacerHorXS
 import com.jozefv.newsdata.core.presentation.SpacerVerM
-import com.jozefv.newsdata.news.domain.ResultUi
 import com.jozefv.newsdata.news.presentation.NewsAction
 import com.jozefv.newsdata.news.presentation.NewsState
+import com.jozefv.newsdata.news.presentation.mappers.ResultUiParcelize
 
 @Composable
 fun NewsList(
     modifier: Modifier = Modifier,
-    navigator: ThreePaneScaffoldNavigator<ResultUi>,
+    navigator: ThreePaneScaffoldNavigator<ResultUiParcelize>,
     paddingValues: PaddingValues,
     state: NewsState,
     onAction: (NewsAction) -> Unit

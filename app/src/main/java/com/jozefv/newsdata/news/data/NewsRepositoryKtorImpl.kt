@@ -2,6 +2,7 @@ package com.jozefv.newsdata.news.data
 
 import com.jozefv.newsdata.core.domain.ResultHandler
 import com.jozefv.newsdata.news.data.dto.NewsDataDao
+import com.jozefv.newsdata.news.data.dto.toNewsDataUi
 import com.jozefv.newsdata.news.domain.NewsRepository
 import com.jozefv.newsdata.news.domain.NewsDataUi
 import io.ktor.client.HttpClient

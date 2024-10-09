@@ -9,6 +9,7 @@ import com.jozefv.newsdata.core.domain.ResultHandler
 import com.jozefv.newsdata.core.domain.SessionStorage
 import com.jozefv.newsdata.core.presentation.toUiText
 import com.jozefv.newsdata.news.domain.NewsRepository
+import com.jozefv.newsdata.news.presentation.mappers.toNewsDataUiParcelize
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -34,7 +35,7 @@ class NewsViewModel(
             when (val result = newsRepository.getNews()) {
                 is ResultHandler.Success -> {
                     state = state.copy(
-                        news = result.data,
+                        news = result.data.toNewsDataUiParcelize(),
                         refreshedTime = getLocalTime()
                     )
                     state = state.copy(isRefreshingNews = false)
@@ -64,7 +65,7 @@ class NewsViewModel(
                     when (val result = newsRepository.getMoreNews()) {
                         is ResultHandler.Success -> {
                             state = state.copy(
-                                news = result.data
+                                news = result.data.toNewsDataUiParcelize()
                             )
                             state = state.copy(
                                 error = null
@@ -85,7 +86,7 @@ class NewsViewModel(
                     when (val result = newsRepository.getNews(refreshNews = true)) {
                         is ResultHandler.Success -> {
                             state = state.copy(
-                                news = result.data,
+                                news = result.data.toNewsDataUiParcelize(),
                                 refreshedTime = getLocalTime()
                             )
                             state = state.copy(

@@ -18,18 +18,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 import com.jozefv.newsdata.core.presentation.SpacerVerL
 import com.jozefv.newsdata.core.presentation.SpacerVerM
-import com.jozefv.newsdata.news.domain.ResultUi
 import com.jozefv.newsdata.news.presentation.components.NewsInfoRowSection
+import com.jozefv.newsdata.news.presentation.mappers.ResultUiParcelize
 
 @Composable
 fun NewsDetail(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
-    resultUi: ResultUi,
+    resultUi: ResultUiParcelize,
     onShareClick: () -> Unit
 ) {
     Column(
@@ -96,5 +97,25 @@ fun NewsDetail(
                 text = resultUi.description
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun NewsDetailPreview() {
+    MaterialTheme {
+        NewsDetail(
+            paddingValues = PaddingValues(horizontal = 24.dp, vertical = 16.dp),
+            resultUi = ResultUiParcelize(
+                title = "Hockey games are starting",
+                description = "This will be the best games ever! Come and support us!",
+                publishedDate = "24.8.2024 16:22:38",
+                sourceName = "The games",
+                articleLink = "",
+                imageUrl = "",
+                sourceUrl = ""
+            ),
+            onShareClick = {}
+        )
     }
 }
