@@ -25,6 +25,7 @@ import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -96,7 +97,21 @@ fun NewsList(
                             )
                             // Bottom of the list
                             if (resultUi == news.last()) {
-                                onAction(NewsAction.OnLoadMoreNews)
+                                // We need this because when we are opening the detail screen of the last item,
+                                // and there is some error - resultUi will be equal to news.last() all the time,
+                                // as list wasn't updated with new data.
+                                // Thus during recomposition (ex. moving to another screen)
+                                // if block will be executed in unpredicted manner - so we would show error message
+                                // all the time when re-composition happen (we can't control this).
+                                // LaunchedEffect(true) will make sure the code is executed only once -
+                                // as long as we don't leave the screen composition.
+
+                                // If there is no error - and we come to the bottom of the list
+                                // onAction() will be executed only once as news list is updated
+                                // and condition isn't valid anymore.
+                                LaunchedEffect(key1 = true) {
+                                    onAction(NewsAction.OnLoadMoreNews)
+                                }
                             }
                         }
                     }
