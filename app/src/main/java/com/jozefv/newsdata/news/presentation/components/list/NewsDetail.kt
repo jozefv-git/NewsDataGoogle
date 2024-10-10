@@ -1,11 +1,14 @@
 package com.jozefv.newsdata.news.presentation.components.list
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -18,9 +21,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
+import com.jozefv.newsdata.R
 import com.jozefv.newsdata.core.presentation.SpacerVerL
 import com.jozefv.newsdata.core.presentation.SpacerVerM
 import com.jozefv.newsdata.news.presentation.components.NewsInfoRowSection
@@ -40,7 +46,9 @@ fun NewsDetail(
     ) {
         SubcomposeAsyncImage(
             modifier = modifier
+                .heightIn(min = 200.dp)
                 .fillMaxWidth(),
+            contentScale = ContentScale.FillBounds,
             model = resultUi.imageUrl,
             contentDescription = null,
             loading = {
@@ -48,7 +56,7 @@ fun NewsDetail(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(modifier = Modifier.size(20.dp))
                 }
             },
             error = {
@@ -56,8 +64,10 @@ fun NewsDetail(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
-                    SpacerVerM()
-                    Text(text = "Couldn't load image.")
+                    Image(
+                        painter = painterResource(id = R.drawable.default_news_image),
+                        contentDescription = "Default news image"
+                    )
                 }
             }
         )

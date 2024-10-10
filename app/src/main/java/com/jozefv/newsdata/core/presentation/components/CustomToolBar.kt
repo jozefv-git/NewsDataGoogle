@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,7 +25,8 @@ fun CustomToolBar(
     leadingContent: @Composable () -> Unit = {},
     trailingContent: @Composable () -> Unit = {}
 ) {
-    TopAppBar(modifier = modifier,
+    TopAppBar(
+        modifier = modifier,
         scrollBehavior = scrollBehavior,
         title = {
             Text(text = title)
