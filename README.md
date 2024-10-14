@@ -12,8 +12,8 @@ Displayed articles are obtained from: https://newsdata.io/ (free-plan version).
 **NewsData app functionality**
 - Login screen | News screen | News detail
 - User can authenticate with **predefined** username and password which are statically checked and stored -> if valid -login
-- Data are accessible if user if authenticated
-- Remote data can be fully -refetch by click on update button or by "Pull down gesture"
+- Data are accessible if user is authenticated
+- Remote data can be fully -refetch by clicking on the update button or by "Pull down gesture"
 - If user scrolls to the bottom of the list - more data will be fetched
 - Basic fetch error data handling
 - Share url of received data
@@ -24,25 +24,27 @@ Displayed articles are obtained from: https://newsdata.io/ (free-plan version).
 - Dark mode
 
 **Code structure**
-Application is divided into 4 main packages(features): **auth**, **core**, **news** and **app**. 
-**core** can be accessed by every feature on the **same layer** and **app** has access to all features. 
-Other features should not be able to communicate with each other.
-Each package is further divided based on the main layers: **data**, **domain** and **presentation**. **domain**
-can be acessed by **data** and **presentation**. **domain** should be free of any external dependencies. **data** and **presentation**
-should not communicate between each other.
+- Application is divided into 4 main packages(features): **auth**, **core**, **news** and **app**. 
+- **core** can be accessed by every feature on the **same layer** and **app** has access to all features. 
+- Other features should not be able to communicate with each other.
+
+Each package is further divided based on the main layers: **data**, **domain** and **presentation**. 
+- **domain** can be accessed by **data** and **presentation**. 
+- **domain** should be free of any external dependencies.
+- **data** and **presentation** should not communicate between each other.
 
 The idea was to structure **NewsData app** in a clear separation patterns, which should help 
 with possible migration for multimodule architecture and easier maintenance. 
 
 **Example of data communication**
-**news-data** can access **core-data** (as it is core and same layer)
-**auth-presentation** can access **core-domain** (as it is auth and core (domain layer) - which can be accessed by every feature)
-**auth-presentation** cannot access **core-data** (as it is auth and core but layers are not matching)
-**news-data** can acess **core-data** (as it is news and core and layers are matching)
-**news** cannot access **auth**
-**app** can access **news**
+- **news-data** can access **core-data** (as it is core and same layer)
+- **auth-presentation** can access **core-domain** (as it is auth and core (domain layer) - core-domain can be accessed by every feature layer)
+- **auth-presentation** cannot access **core-data** (as it is auth and core but layers are not matching)
+- **news-data** can acess **core-data** (as it is news and core and layers are matching)
+- **news** cannot access **auth**
+- **app** can access **news**
 
-**Example package(feature) structure**
+**Example of package(feature) structure**
 - news
     - data
     - domain
@@ -67,6 +69,6 @@ with possible migration for multimodule architecture and easier maintenance.
 
 **TODO**
 - Automatic testing
-- Possible bug fixes
+- Possible errors fix
 
   
