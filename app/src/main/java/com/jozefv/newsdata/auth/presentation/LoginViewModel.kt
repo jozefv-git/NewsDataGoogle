@@ -61,6 +61,9 @@ class LoginViewModel(
                     login()
                 }
             }
+            LoginAction.OnLoginWithGoogleClick -> {
+
+            }
             // Navigation is handled in NavigationRoot
             else -> Unit
         }

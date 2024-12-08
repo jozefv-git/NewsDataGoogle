@@ -85,6 +85,8 @@ dependencies {
 
     implementation(libs.bundles.adaptive.layouts)
 
+    implementation(libs.bundles.google.auth)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

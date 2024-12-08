@@ -1,5 +1,6 @@
 package com.jozefv.newsdata.auth.presentation
 
+import android.widget.ImageButton
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,7 +9,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -32,7 +37,7 @@ import org.koin.androidx.compose.koinViewModel
 fun LoginScreenRoot(
     onSkip: () -> Unit,
     onLoginSuccess: () -> Unit,
-    viewModel: LoginViewModel = koinViewModel()
+    viewModel: LoginViewModel = koinViewModel(),
 ) {
 
     ObserveAsEvents(flow = viewModel.eventChannel) { loginEvent ->
@@ -55,76 +60,92 @@ fun LoginScreenRoot(
 @Composable
 private fun LoginScreen(
     state: LoginState,
-    onAction: (LoginAction) -> Unit
+    onAction: (LoginAction) -> Unit,
 ) {
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(32.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .padding(32.dp, vertical = 16.dp)
     ) {
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterStart) {
-            Text(text = "NewsData", style = MaterialTheme.typography.headlineLarge)
+        IconButton(modifier = Modifier.align(Alignment.TopEnd),
+            onClick = { LoginAction.OnSkipClick }) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = Icons.Default.Close.name
+            )
         }
-        SpacerVerL()
-        CustomTextField(
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
-            labelText = "Your email",
-            //supportingText = "email@email.com",
-            textFieldValue = state.email,
-            onValueChange = {
-                onAction(LoginAction.EmailInput(it))
-            }
-        )
-        SpacerVerM()
-        CustomTextField(
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
-            labelText = "Your password",
-            textFieldValue = state.password,
-            isPasswordVisible = state.isPasswordVisible,
-            trailingIcon = if (state.isPasswordVisible) {
-                ImageVector.vectorResource(R.drawable.baseline_visibility_24)
-            } else {
-                ImageVector.vectorResource(id = R.drawable.baseline_visibility_off_24)
-            },
-            onTrailingIconClick = {
-                onAction(LoginAction.OnPasswordVisibilityClick)
-            },
-            onValueChange = {
-                onAction(LoginAction.PasswordInput(it))
-            }
-        )
-        SpacerVerM()
-        state.canLogin?.let { canLogin ->
-            if (!canLogin) {
-                Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterStart) {
-                    Text(
-                        style = MaterialTheme.typography.bodySmall,
-                        text = "Email or password is incorrect"
-                    )
+        Column(
+            Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = "NewsData", style = MaterialTheme.typography.headlineLarge)
+            SpacerVerL()
+            CustomTextField(
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Email),
+                labelText = "Your email",
+                //supportingText = "email@email.com",
+                textFieldValue = state.email,
+                onValueChange = {
+                    onAction(LoginAction.EmailInput(it))
+                }
+            )
+            SpacerVerM()
+            CustomTextField(
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Password),
+                labelText = "Your password",
+                textFieldValue = state.password,
+                isPasswordVisible = state.isPasswordVisible,
+                trailingIcon = if (state.isPasswordVisible) {
+                    ImageVector.vectorResource(R.drawable.baseline_visibility_24)
+                } else {
+                    ImageVector.vectorResource(id = R.drawable.baseline_visibility_off_24)
+                },
+                onTrailingIconClick = {
+                    onAction(LoginAction.OnPasswordVisibilityClick)
+                },
+                onValueChange = {
+                    onAction(LoginAction.PasswordInput(it))
+                }
+            )
+            SpacerVerM()
+            state.canLogin?.let { canLogin ->
+                if (!canLogin) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Text(
+                            style = MaterialTheme.typography.bodySmall,
+                            text = "Email or password is incorrect"
+                        )
+                    }
                 }
             }
-        }
-        SpacerVerL()
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            OutlinedButton(onClick = {
-                onAction(LoginAction.OnSkipClick)
-            }) {
-                Text(text = "Skip")
+            //SpacerVerL()
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = state.notEmptyFields,
+                    onClick = {
+                        onAction(LoginAction.OnLoginClick)
+                    }) {
+                    Text(text = "Sign in")
+                }
             }
-            SpacerHorM()
+            Text(text = "or")
             Button(
-                enabled = state.notEmptyFields,
+                modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    onAction(LoginAction.OnLoginClick)
+                    onAction(LoginAction.OnLoginWithGoogleClick)
                 }) {
-                Text(text = "Login")
+                Text(text = "Sign in with Google")
             }
         }
+
     }
 }
 
