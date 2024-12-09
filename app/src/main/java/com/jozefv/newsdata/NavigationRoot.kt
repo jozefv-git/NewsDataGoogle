@@ -1,11 +1,13 @@
 package com.jozefv.newsdata
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.jozefv.newsdata.auth.presentation.LoginScreenRoot
 import com.jozefv.newsdata.news.presentation.NewsScreenRoot
+import com.jozefv.newsdata.profile.presentation.ProfileScreenRoot
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -13,6 +15,9 @@ object Login
 
 @Serializable
 object News
+
+@Serializable
+object Profile
 
 @Composable
 fun NavigationRoot(navHostController: NavHostController, isLoggedIn: Boolean) {
@@ -32,9 +37,10 @@ fun NavigationRoot(navHostController: NavHostController, isLoggedIn: Boolean) {
         }
         composable<News> {
             NewsScreenRoot(
-                onLogoutClick = {
-                    navHostController.navigate(route = Login) {
-                        popUpTo(News) {
+                onProfileCLick = {
+                    navHostController.navigate(route = Profile) {
+                        popUpTo(Profile)
+                        {
                             inclusive = true
                         }
                     }
@@ -47,6 +53,16 @@ fun NavigationRoot(navHostController: NavHostController, isLoggedIn: Boolean) {
                     }
                 }
             )
+        }
+        composable<Profile> {
+            ProfileScreenRoot(onLogoutClick = {
+                navHostController.navigate(route = Login) {
+                    popUpTo(News) {
+                        inclusive = true
+
+                    }
+                }
+            })
         }
     }
 }

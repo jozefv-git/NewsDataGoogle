@@ -11,10 +11,12 @@ android {
     compileSdk = 34
 
     val apiKey = gradleLocalProperties(rootDir,rootProject.providers).getProperty("API_KEY")
+    val googleCloudServerId = gradleLocalProperties(rootDir,rootProject.providers).getProperty("GOOGLE_CLOUD_WEB_SERVER_CLIENT_ID")
 
     defaultConfig {
         // Because of gradle, we need to define api in additional quotes
         buildConfigField("String","API_KEY","\"$apiKey\"")
+        buildConfigField("String","GOOGLE_CLOUD_WEB_SERVER_CLIENT_ID","\"$googleCloudServerId\"")
         applicationId = "com.jozefv.newsdata"
         minSdk = 28
         targetSdk = 34
@@ -84,6 +86,8 @@ dependencies {
     implementation(libs.splash.screen)
 
     implementation(libs.bundles.adaptive.layouts)
+
+    implementation(libs.bundles.google.auth)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

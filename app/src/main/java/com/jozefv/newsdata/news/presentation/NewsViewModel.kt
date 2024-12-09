@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter
 
 class NewsViewModel(
     private val newsRepository: NewsRepository,
-    private val sessionStorage: SessionStorage
+    private val sessionStorage: SessionStorage,
 ) : ViewModel() {
 
     var state by mutableStateOf(NewsState())
@@ -53,12 +53,6 @@ class NewsViewModel(
 
     fun onAction(action: NewsAction) {
         when (action) {
-            NewsAction.OnLogoutClick -> {
-                viewModelScope.launch {
-                    sessionStorage.setUser(null)
-                }
-            }
-
             // If we are at the bottom of the list - load more data
             NewsAction.OnLoadMoreNews -> {
                 viewModelScope.launch {

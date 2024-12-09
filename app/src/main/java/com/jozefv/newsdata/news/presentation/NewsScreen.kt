@@ -6,7 +6,10 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -16,32 +19,26 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.jozefv.newsdata.R
+import androidx.compose.ui.unit.dp
 import com.jozefv.newsdata.core.presentation.ObserveAsEvents
 import com.jozefv.newsdata.core.presentation.SpacerVerL
 import com.jozefv.newsdata.core.presentation.SpacerVerM
 import com.jozefv.newsdata.core.presentation.components.CustomScaffold
 import com.jozefv.newsdata.core.presentation.components.CustomToolBar
-import com.jozefv.newsdata.news.presentation.components.CustomAlertDialog
 import com.jozefv.newsdata.news.presentation.components.list.ListDetailLayout
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NewsScreenRoot(
     onLoginClick: () -> Unit,
-    onLogoutClick: () -> Unit,
-    viewModel: NewsViewModel = koinViewModel()
+    onProfileCLick: () -> Unit,
+    viewModel: NewsViewModel = koinViewModel(),
 ) {
     val context = LocalContext.current
     ObserveAsEvents(flow = viewModel.channel) { event ->
@@ -56,9 +53,9 @@ fun NewsScreenRoot(
         onAction = { action ->
             when (action) {
                 is NewsAction.OnLoginClick -> onLoginClick()
-                is NewsAction.OnLogoutClick -> {
+                is NewsAction.OnProfileClick -> {
                     viewModel.onAction(action)
-                    onLogoutClick()
+                    onProfileCLick()
                 }
 
                 else -> viewModel.onAction(action)
@@ -70,11 +67,8 @@ fun NewsScreenRoot(
 @Composable
 private fun NewsScreen(
     state: NewsState,
-    onAction: (NewsAction) -> Unit
+    onAction: (NewsAction) -> Unit,
 ) {
-    var isDialogVisible by remember {
-        mutableStateOf(false)
-    }
     val scrollBehaviour = TopAppBarDefaults.enterAlwaysScrollBehavior(
         state = rememberTopAppBarState()
     )
@@ -91,12 +85,12 @@ private fun NewsScreen(
                         IconButton(
                             onClick =
                             {
-                                isDialogVisible = true
+                                onAction(NewsAction.OnProfileClick)
                             }
                         ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.baseline_logout_24),
-                                contentDescription = "Log out"
+                                imageVector = Icons.Default.AccountCircle,
+                                contentDescription = Icons.Default.AccountCircle.name
                             )
                         }
                     }
@@ -108,15 +102,21 @@ private fun NewsScreen(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(paddingValues),
+                    .padding(paddingValues)
+                    .padding(horizontal = 32.dp, vertical = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "To be able to check latest news, please login.")
+                Text(
+                    textAlign = TextAlign.Center,
+                    text = "To be able to check the latest news, please login."
+                )
                 SpacerVerL()
-                Button(onClick = {
-                    onAction(NewsAction.OnLoginClick)
-                }) {
+                Button(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        onAction(NewsAction.OnLoginClick)
+                    }) {
                     Text(text = "Login")
                 }
             }
@@ -132,7 +132,9 @@ private fun NewsScreen(
                 )
             } else {
                 Column(
-                    Modifier.fillMaxSize(),
+                    Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 32.dp, vertical = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -150,24 +152,6 @@ private fun NewsScreen(
                 }
             }
         }
-    }
-
-    if (isDialogVisible) {
-        CustomAlertDialog(
-            dialogTitle = "Logout",
-            dialogText = "Are you sure you want to logout?",
-            dialogIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_logout_24),
-                    contentDescription = "Log out"
-                )
-            },
-            onDismiss = { isDialogVisible = false },
-            onConfirm = {
-                onAction(NewsAction.OnLogoutClick)
-                isDialogVisible = false
-            }
-        )
     }
 }
 
