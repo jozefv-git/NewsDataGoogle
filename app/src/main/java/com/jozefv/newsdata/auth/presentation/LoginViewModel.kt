@@ -56,41 +56,45 @@ class LoginViewModel(
             }
 
             LoginAction.OnLoginClick -> {
-                state = state.copy(
-                    canLogin = state.notEmptyFields && isUserValid(state.email, state.password)
-                )
-
-                if (state.canLogin!!) {
-                    login(
-                        AuthUser(
-                            email = state.email,
-                            password = state.password,
-                            null,
-                            null,
-                            null
-                        )
+                viewModelScope.launch {
+                    state = state.copy(
+                        canLogin = state.notEmptyFields && isUserValid(state.email, state.password)
                     )
+
+                    if (state.canLogin!!) {
+                        login(
+                            AuthUser(
+                                email = state.email,
+                                password = state.password,
+                                null,
+                                null,
+                                null
+                            )
+                        )
+                    }
                 }
             }
 
             is LoginAction.OnLoginWithGoogleClick -> {
-                val credential = action.credentials
-                if (credential is CustomCredential && credential.type
-                    == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
-                ) {
-                    val userCredentials =
-                        GoogleIdTokenCredential.createFrom(credential.data)
-                    login(
-                        AuthUser(
-                            email = null,
-                            password = null,
-                            idToken = userCredentials.idToken,
-                            displayName = userCredentials.displayName,
-                            profilePictureUrl = userCredentials.profilePictureUri.toString() // TODO: This must be probably later mapped
+                viewModelScope.launch {
+                    val credential = action.credentials
+                    if (credential is CustomCredential && credential.type
+                        == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+                    ) {
+                        val userCredentials =
+                            GoogleIdTokenCredential.createFrom(credential.data)
+                        login(
+                            AuthUser(
+                                email = null,
+                                password = null,
+                                idToken = userCredentials.idToken,
+                                displayName = userCredentials.displayName,
+                                profilePictureUrl = userCredentials.profilePictureUri.toString()
+                            )
                         )
-                    )
-                } else {
-                    Log.e("Credential error", "Unexpected credential")
+                    } else {
+                        Log.e("Credential error", "Unexpected credential")
+                    }
                 }
             }
             // Navigation is handled in NavigationRoot
@@ -98,10 +102,8 @@ class LoginViewModel(
         }
     }
 
-    private fun login(authUser: AuthUser) {
-        viewModelScope.launch {
-            sessionStorage.setUser(authUser)
-            _eventChannel.send(LoginEvent.LoginSuccess)
-        }
+    private suspend fun login(authUser: AuthUser) {
+        sessionStorage.setUser(authUser)
+        _eventChannel.send(LoginEvent.LoginSuccess)
     }
 }
